@@ -1,4 +1,4 @@
-# Copilot Studio Agent Kit
+# Copilot Studio Glow Up
 
 Read [AGENTS.md](../AGENTS.md) before doing anything in this repository. It is the
 source of truth for the method, the component model, and the rules.

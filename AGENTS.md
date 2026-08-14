@@ -1,4 +1,4 @@
-# Copilot Studio Agent Kit
+# Copilot Studio Glow Up
 
 Instructions for any AI coding agent working in this repository.
 GitHub Copilot CLI, Claude Code, Codex and Cursor all read this file.
