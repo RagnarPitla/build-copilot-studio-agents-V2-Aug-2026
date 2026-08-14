@@ -294,7 +294,7 @@ def cmd_add(a):
     shape, _, _ = detect_shape(bot)
     if shape == 1:
         sys.exit("this is a classic Standard-harness agent. Skills are not supported.\n"
-                 "Upgrade it first, see docs/02-conversion-playbook.md.")
+                 "Upgrade it first, see docs/02-upgrade-playbook.md.")
     botschema = bot["schemaname"]
     existing = {c["name"]: c for c in get_skills(a.env_url, a.bot_id, token)}
 

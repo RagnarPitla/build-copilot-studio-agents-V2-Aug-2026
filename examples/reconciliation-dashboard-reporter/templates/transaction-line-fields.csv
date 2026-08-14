@@ -1,0 +1,29 @@
+field_id,display_label,source_system,source_path_or_field,data_type,format,column_order,show_by_default,show_in_single_line_view,blank_when_missing,notes
+FLD-01,Booking date,Bank statement,Ntry/BookgDt/Dt,Date,YYYY-MM-DD,1,Yes,Yes,Yes,Primary sort
+FLD-02,Value date,Bank statement,Ntry/ValDt/Dt,Date,YYYY-MM-DD,2,No,Yes,Yes,Often differs from booking date. Show when date tolerance is being investigated
+FLD-03,Payer,Bank statement,NtryDtls/TxDtls/RltdPties/Dbtr/Nm,Text,,3,Yes,Yes,Yes,The donor name on a donation account
+FLD-04,Payer IBAN,Bank statement,NtryDtls/TxDtls/RltdPties/DbtrAcct/Id/IBAN,Text,,4,No,Yes,Yes,Useful for recurring donor identification
+FLD-05,Ultimate payer,Bank statement,NtryDtls/TxDtls/RltdPties/UltmtDbtr/Nm,Text,,5,No,Yes,Yes,Present when payment routed through an intermediary or a giving platform
+FLD-06,Gross amount,Bank statement,Ntry/AmtDtls/InstdAmt/Amt,Decimal,Thousands separated 2dp,6,Yes,Yes,Yes,What the payer actually sent. Blank if the bank did not supply it
+FLD-07,Fees,Bank statement,Ntry/Chrgs/TtlChrgsAndTaxAmt,Decimal,Thousands separated 2dp,7,Yes,Yes,Yes,What the bank took. Blank if not supplied
+FLD-08,Net booked amount,Bank statement,Ntry/Amt,Decimal,Thousands separated 2dp,8,Yes,Yes,No,Always present. This is the amount that moved
+FLD-09,Currency,Bank statement,Ntry/Amt Ccy attribute,Text,ISO 4217,9,Yes,Yes,No,Never sum across currencies
+FLD-10,Charge included flag,Bank statement,Ntry/Chrgs/Rcrd/ChrgInclInd,Boolean,Yes or No,10,No,Yes,Yes,When Yes the charge is already inside the net amount. Do not deduct twice
+FLD-11,Exchange rate,Bank statement,Ntry/AmtDtls/CntrValAmt/CcyXchg/XchgRate,Decimal,6dp,11,No,Yes,Yes,Blank if the bank did not supply it. Never back calculate and present as reported
+FLD-12,Source currency,Bank statement,Ntry/AmtDtls/CntrValAmt/CcyXchg/SrcCcy,Text,ISO 4217,12,No,Yes,Yes,
+FLD-13,Payment reference,Bank statement,NtryDtls/TxDtls/Refs/EndToEndId,Text,,13,Yes,Yes,Yes,Strongest match key when present
+FLD-14,Remittance text,Bank statement,NtryDtls/TxDtls/RmtInf/Ustrd,Text,Truncate at 80 in table view,14,No,Yes,Yes,Where invoice numbers and donation references usually live
+FLD-15,Structured reference,Bank statement,NtryDtls/TxDtls/RmtInf/Strd/CdtrRefInf/Ref,Text,,15,No,Yes,Yes,RF style creditor reference
+FLD-16,Mandate reference,Bank statement,NtryDtls/TxDtls/Refs/MndtId,Text,,16,No,Yes,Yes,Direct debit collections and recurring donations
+FLD-17,Bank transaction code,Bank statement,Ntry/BkTxCd/Domn and Ntry/BkTxCd/Prtry/Cd,Text,,17,No,Yes,Yes,Show when diagnosing an unmapped code
+FLD-18,Bank transaction type,D365,Mapped bank transaction type,Text,,18,Yes,Yes,Yes,Blank means unmapped which is reason code MX-03
+FLD-19,Entry status,Bank statement,Ntry/Sts,Text,,19,No,Yes,No,Only BOOK is reconcilable. PDNG and INFO are not
+FLD-20,Reversal indicator,Bank statement,Ntry/RvslInd,Boolean,Yes or No,20,No,Yes,Yes,Drives the clear reversal rules
+FLD-21,Bank reference,Bank statement,Ntry/AcctSvcrRef,Text,,21,No,Yes,Yes,Best duplicate detection key
+FLD-22,Batch item count,Bank statement,Ntry/NtryDtls/Btch/NbOfTxs,Whole number,,22,No,Yes,Yes,Greater than 1 means many payments in one entry. Check per item detail exists
+FLD-23,Match status,D365,Worksheet tab,Text,Matched Unmatched Posted,23,Yes,Yes,No,Read from D365 only. Never inferred
+FLD-24,Matched document,D365,Settled document number,Text,,24,No,Yes,Yes,Report an existing match only. Never suggest one
+FLD-25,Posted voucher,D365,Voucher number,Text,,25,No,Yes,Yes,Present when a Generate voucher rule posted the line
+FLD-26,Posted to account,D365,Main account on the voucher,Text,,26,No,Yes,Yes,Makes an incorrect mapping visible immediately
+FLD-27,Exception reason,Agent,MX reason code,Text,,27,Yes,Yes,Yes,From the no match reason taxonomy. Blank when matched
+FLD-28,Approval status,Policy,Approval chain band,Text,,28,No,Yes,Yes,Template sourced today. Label it as a template value not a system value

@@ -1,0 +1,5 @@
+br_name,br_tolerancetype,br_value,br_unit,br_isactive,br_description
+Amount - 2.00 EUR rounding,Amount,2.0,EUR,Yes,Allow up to 2.00 EUR variance to absorb rounding on donation batches
+Percentage - 1.5 percent,Percentage,1.5,%,Yes,Allow 1.5 percent variance on the transaction amount for small deductions
+Date Days - 3 days,Date Days,3.0,days,Yes,Allow 3 days between the bank value date and the D365 transaction date
+FX Percentage - 2.0 percent,FX Percentage,2.0,%,Yes,Allow 2 percent exchange rate variance before flagging an FX exception

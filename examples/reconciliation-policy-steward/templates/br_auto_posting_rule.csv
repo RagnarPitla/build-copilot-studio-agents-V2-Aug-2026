@@ -1,0 +1,6 @@
+br_name,br_transactiontype,br_maxamount,br_glaccount,br_offsetaccount,br_journalname,br_isactive,br_requiresapproval,br_description
+Bank Fee - SEPA and account charges,Bank Fee,50.0,601500,110110,GenJrn,Yes,No,Bank charge recognised at reconciliation
+Interest - credit interest earned,Interest,500.0,701000,110110,GenJrn,Yes,No,Interest earned on the donation account
+Service Charge - per transaction,Service Charge,25.0,601500,110110,GenJrn,Yes,No,Per transaction service charge
+Wire Transfer Fee - inbound international,Wire Transfer Fee,100.0,601510,110110,GenJrn,Yes,No,Fee deducted on inbound international transfers
+FX Gain/Loss - realised on settlement,FX Gain/Loss,1000.0,702000,110110,GenJrn,Yes,Yes,Realised exchange rate difference on settlement

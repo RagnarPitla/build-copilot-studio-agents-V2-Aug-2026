@@ -1,0 +1,20 @@
+bank_account_id,bank_code_source,domain_code,family_code,subfamily_code,proprietary_code,proprietary_issuer,description,d365_bank_transaction_type,direction,treat_as,verified_against_bank_file,notes
+BANK-EUR-01,Domain,PMNT,RCDT,ESCT,,,SEPA credit transfer received,DEP,Credit,Customer or donor payment,No,Confirm the triplet appears in Ntry/BkTxCd/Domn in your own file
+BANK-EUR-01,Domain,PMNT,RCDT,DMCT,,,Domestic credit transfer received,DEP,Credit,Customer or donor payment,No,
+BANK-EUR-01,Domain,PMNT,ICDT,ESCT,,,SEPA credit transfer issued,WDL,Debit,Vendor payment,No,
+BANK-EUR-01,Domain,PMNT,RDDT,ESDD,,,SEPA direct debit received,DEP,Credit,Collection,No,
+BANK-EUR-01,Domain,PMNT,IDDT,ESDD,,,SEPA direct debit issued,WDL,Debit,Collection taken by third party,No,
+BANK-EUR-01,Domain,PMNT,MDOP,CHRG,,,Bank charges,FEE,Debit,Bank fee,No,Posts through the Generate voucher rule to the bank fee account
+BANK-EUR-01,Proprietary,,,,808,DK,Account management fee,SVC,Debit,Service charge,No,PLACEHOLDER proprietary code. Read the real value from Ntry/BkTxCd/Prtry/Cd
+BANK-EUR-01,Proprietary,,,,835,DK,Charges and interest,INT,Credit,Interest,No,PLACEHOLDER. Confirm whether the bank splits interest from charges or nets them
+BANK-EUR-01,Proprietary,,,,166,DK,SEPA credit received,DEP,Credit,Customer or donor payment,No,PLACEHOLDER
+BANK-EUR-01,Proprietary,,,,105,DK,Credit transfer issued,WDL,Debit,Vendor payment,No,PLACEHOLDER
+BANK-EUR-02,Domain,PMNT,RCDT,ESCT,,,SEPA credit transfer received,DEP,Credit,Donation,No,Donation collection account. Check Btch NbOfTxs for batch booking
+BANK-EUR-02,Domain,PMNT,RDDT,ESDD,,,SEPA direct debit collection,DEP,Credit,Recurring donation collection,No,Mandate id is in TxDtls/Refs/MndtId
+BANK-EUR-02,Domain,PMNT,MDOP,CHRG,,,Collection charges,FEE,Debit,Bank fee,No,Charges on collections are often netted. Check ChrgInclInd
+BANK-EUR-02,Domain,PMNT,RDDT,ESDD,,,Returned direct debit,NSF,Debit,Returned collection,No,Distinguish from a successful collection by CdtDbtInd and RvslInd
+BANK-USD-01,Domain,PMNT,RCDT,XBCT,,,Cross border credit transfer received,DEP,Credit,Foreign currency receipt,No,Exchange rate is in AmtDtls/CntrValAmt/CcyXchg/XchgRate when supplied
+BANK-USD-01,Domain,PMNT,MDOP,CHRG,,,Wire transfer fee,WIRE,Debit,Wire transfer fee,No,Keep separate from the general bank fee account
+BANK-USD-01,Proprietary,,,,,,Currency conversion difference,FXDIFF,Both,Exchange rate difference,No,Not a fee. Posts to the FX gain or FX loss account
+BANK-CHF-01,Domain,PMNT,RCDT,XBCT,,,Cross border credit transfer received,DEP,Credit,Foreign currency receipt,No,
+BANK-CHF-01,Domain,PMNT,MDOP,CHRG,,,Bank charges,FEE,Debit,Bank fee,No,

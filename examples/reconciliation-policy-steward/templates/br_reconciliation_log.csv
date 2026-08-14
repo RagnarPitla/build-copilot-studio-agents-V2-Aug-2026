@@ -1,0 +1,3 @@
+br_name,br_timestamp,br_action,br_actortype,br_actorname,br_bankaccountid,br_statementid,br_policyapplied,br_confidencescore,br_matchedamount,br_details
+LOG-000001,2026-02-03T09:14:22Z,Policy Updated,Agent,BankReconAgent,BANK-EUR-01,,DACH-NPO-EUR-Main-Policy,,,"{""table"":""br_tolerance_threshold"",""field"":""br_value"",""before"":""1.00"",""after"":""2.00"",""reason"":""Typical SEPA charge rose above the old tolerance"",""confirmed_by"":""m.keller""}"
+LOG-000002,2026-02-03T09:20:05Z,Statement Imported,Agent,BankReconAgent,BANK-EUR-01,STMT-2026-02-03,DACH-NPO-EUR-Main-Policy,,,"{""format"":""CAMT.053"",""lines"":18432,""batch_booking"":true}"

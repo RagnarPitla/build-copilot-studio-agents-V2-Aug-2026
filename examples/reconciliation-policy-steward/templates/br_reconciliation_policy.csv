@@ -1,0 +1,2 @@
+br_policyname,br_bankaccountid,br_legalentity,br_isactive,br_effectivedate,br_expirydate,br_matchconfidenceautothreshold,br_matchconfidencesuggestthreshold,br_description
+DACH-NPO-EUR-Main-Policy,BANK-EUR-01,NPO,Yes,2026-01-01,,95,70,"Main reconciliation policy for the primary EUR donation account. High volume inbound donations, SEPA charges deducted at source, and cross-currency donations settled with an FX difference."

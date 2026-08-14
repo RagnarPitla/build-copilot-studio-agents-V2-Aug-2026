@@ -1,0 +1,2 @@
+br_bankaccountid,br_legalentity,br_importfrequency,br_filesource,br_statementformat,br_autoreconcileenabled,br_lastreconciliationdate
+BANK-EUR-01,NPO,Daily,SharePoint: /Finance/BankStatements/EUR-01/Inbound,ISO20022 CAMT.053,No,

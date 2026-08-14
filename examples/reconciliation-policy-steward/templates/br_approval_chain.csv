@@ -1,0 +1,4 @@
+br_name,br_thresholdamount,br_approverrole,br_approveremail,br_escalationhours,br_escalationto,br_description
+Tier 1 - accounts payable clerk,0.0,Accounts payable clerk,ap.clerk@example.org,24,accounting.supervisor@example.org,Differences below 1000 EUR are handled at clerk level
+Tier 2 - accounting supervisor,1000.0,Accounting supervisor,accounting.supervisor@example.org,24,finance.manager@example.org,Differences from 1000 EUR require supervisor approval
+Tier 3 - finance manager,10000.0,Finance manager,finance.manager@example.org,8,cfo@example.org,Differences from 10000 EUR require finance manager approval

@@ -1,0 +1,7 @@
+br_name,br_exceptiontype,br_condition,br_severity,br_action,br_description
+MX-01 Amount mismatch above tolerance,Amount Mismatch,Variance above 2.00 EUR,Medium,Flag for Review,Statement amount differs from the D365 transaction beyond the amount tolerance
+MX-02 No matching transaction found,No Match,No candidate within 3 days,Medium,Flag for Review,No D365 bank transaction matches this statement line within the date tolerance
+MX-03 Duplicate transaction,Duplicate Transaction,"Same amount, date and reference",High,Require Approval,The same statement line appears more than once in the imported file
+MX-04 Stale outstanding item,Stale Item,Older than 90 days,Medium,Flag for Review,An outstanding item has remained unmatched for more than 90 days
+MX-05 Suspicious pattern,Suspicious Pattern,Unexpected counterparty or round sum,Critical,Escalate,Pattern is inconsistent with normal donation activity and needs review
+MX-06 FX variance above tolerance,FX Variance,Rate variance above 2 percent,High,Require Approval,Exchange rate difference exceeds the FX tolerance for this policy
