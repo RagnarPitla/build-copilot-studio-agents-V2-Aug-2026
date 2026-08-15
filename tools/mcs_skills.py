@@ -358,26 +358,72 @@ def cmd_remove(a):
     return 0
 
 
+QUALITY = [
+    # (label, predicate over (name, desc, body_lower)) -> True means "problem"
+    ("routing description is short, the orchestrator matches on it",
+     lambda n, d, b: len(d) < 60),
+    ("routing description never says WHEN to use this, so it may not fire",
+     lambda n, d, b: not re.search(
+         r"\b(when|after|before|if|whenever|upon|during|use this|asks?|requests?|needs?)\b",
+         d, re.I)),
+    ("no 'when to invoke' section, the agent has to guess",
+     lambda n, d, b: not re.search(r"when to (invoke|use|apply|trigger)", b)),
+    ("no inputs section, so required information is undefined",
+     lambda n, d, b: not re.search(r"\b(input|parameter|require[sd]?|you will need)\b", b)),
+    ("no ordered steps, this reads as prose rather than a procedure",
+     lambda n, d, b: not re.search(r"(^|\n)\s*(1[.)]|#+ *step|\- *step)", b)),
+    ("no failure handling, nothing tells the agent what to do when it goes wrong",
+     lambda n, d, b: not re.search(
+         r"\b(fail|failure|error|missing|cannot|can't|unable|unavailable|escalate|"
+         r"if none|not found|no match)\b", b)),
+    ("has side effects but never asks for confirmation",
+     lambda n, d, b: bool(re.search(
+         r"\b(post|write|create|delete|update|submit|approve|send|book|commit)\b", b))
+     and not re.search(r"\b(confirm|confirmation|approval|ask the user|before proceeding)\b", b)),
+    ("body is very short, likely belongs in instructions rather than a skill",
+     lambda n, d, b: len(b) < 400),
+    ("body is very large, consider splitting into focused skills",
+     lambda n, d, b: len(b) > 12000),
+]
+
+
+def quality_notes(name, desc, body):
+    """Structural quality warnings. Cheap heuristics, no model needed.
+
+    These catch the skills that deploy fine and then never fire, or fire and
+    then behave unpredictably. See docs/07-skill-quality.md for the reasoning.
+    """
+    b = body.lower()
+    notes = [label for label, pred in QUALITY if pred(name, desc, b)]
+    if len(f"{'x'*40}.skill.{name}_abc") > MAX_SCHEMA:
+        notes.append("name may overflow the 100 char schemaname limit")
+    return notes
+
+
 def cmd_validate(a):
     files = find_skills(a.path)
     if not files:
         sys.exit(f"no SKILL.md found under {a.path}")
-    bad = 0
+    bad = warned = 0
     for f in files:
         try:
             n, d, body = parse_skill_md(f)
-            notes = []
-            if len(d) < 60:
-                notes.append("description is short, the orchestrator routes on it")
-            if len(f"{'x'*40}.skill.{n}_abc") > MAX_SCHEMA:
-                notes.append("name may overflow the 100 char schemaname limit")
+            notes = quality_notes(n, d, body)
             print(f"  ok       {n:<42} body {len(body):>6}  desc {len(d):>4}"
-                  + ("  WARN " + "; ".join(notes) if notes else ""))
+                  + (f"  {len(notes)} warning(s)" if notes else ""))
+            for note in notes:
+                print(f"           warn  {note}")
+            if notes:
+                warned += 1
         except ValueError as e:
             print(f"  INVALID  {f}\n           {e}")
             bad += 1
-    print(f"\n{len(files)-bad}/{len(files)} valid")
-    return 1 if bad else 0
+    print(f"\n{len(files)-bad}/{len(files)} valid, {warned} with warnings")
+    if warned and not a.strict:
+        print("quality warnings do not block deployment. Use --strict to treat them as errors.")
+    if bad:
+        return 1
+    return 1 if (warned and a.strict) else 0
 
 
 def cmd_package(a):
@@ -426,6 +472,8 @@ def main():
     sp.add_argument("--name", required=True)
     sp = sub.add_parser("validate", help="check SKILL.md files offline")
     sp.add_argument("--path", required=True)
+    sp.add_argument("--strict", action="store_true",
+                    help="treat quality warnings as errors")
     sp = sub.add_parser("package", help="build one zip per skill")
     sp.add_argument("--path", required=True); sp.add_argument("--out", required=True)
 

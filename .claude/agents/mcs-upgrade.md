@@ -78,6 +78,10 @@ and start from `templates/skill-template/SKILL.md`.
 python3 tools/mcs_skills.py validate --path ./skills
 ```
 
+Errors block deployment. Quality warnings mean the skill will probably misfire, so run
+`grill-my-skills` (`skills/grill-my-skills/SKILL.md`) and put each warning to the user as
+a real question. Aim to leave `--strict` clean.
+
 **6. Deploy to draft.**
 
 ```bash

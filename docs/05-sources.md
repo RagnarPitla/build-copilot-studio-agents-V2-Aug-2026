@@ -22,6 +22,23 @@ The authoritative source. Where this repo and a blog post disagree, this wins.
 | [Memory](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/memory-overview) | Persistent context across conversations |
 | [Select a model](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/authoring-select-agent-model) | Model choice, a component this repo previously omitted |
 | [Power Platform CLI](https://learn.microsoft.com/en-us/power-platform/developer/cli/introduction) | `pac`, required newer than 2.9.3 |
+| [Dynamics 365 ERP MCP](https://learn.microsoft.com/en-us/dynamics365/fin-ops-core/dev-itpro/copilot/copilot-mcp) | The finance and operations tool surface. Read before designing any F&O skill |
+
+### One dated fact worth acting on
+
+The Dynamics 365 ERP MCP page carries a deadline that affects upgrades happening now.
+The older **static** ERP MCP server, the one built on the Dataverse connector framework
+with 13 fixed tools, **retires on 1 October 2026**. The replacement is the dynamic server,
+which exposes three categories instead: data tools for CRUD through data entities, form
+tools for what a user can do on a page, and action tools that invoke X++ classes.
+
+If you are upgrading an agent that depends on the static server, that is not a detail to
+find late. `grill-my-agent` raises it during the interview.
+
+The same page also gives a piece of guidance worth reusing: when an agent reaches for
+form tools where data tools would be faster, the documented fix is to **name the preferred
+tool in the agent's instructions**. That is a good example of behavior that belongs in
+instructions rather than in a skill.
 | [About GitHub Copilot CLI](https://docs.github.com/en/copilot/concepts/agents/about-copilot-cli) | The CLI harness this repo runs under |
 
 ---

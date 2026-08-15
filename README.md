@@ -7,6 +7,14 @@ Clone this repo, point your AI coding agent at it, and describe what you want. I
 agents on the GitHub Copilot harness, and it upgrades standard harness agents onto it
 from nothing more than their URL.
 
+**It interviews you first.** Not a form, a conversation: one question at a time, each
+with a recommended answer, and it goes and reads your existing agent rather than asking
+you what it does. See [`skills/`](skills/README.md).
+
+**Why the date in the name.** This matches the product as it stands in **August 2026**.
+Copilot Studio is moving quickly and this repo makes specific claims about harnesses,
+billing and storage formats that will age. The name tells you what you are reading.
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 ![Harness](https://img.shields.io/badge/runs%20in-Copilot%20CLI%20%7C%20Claude%20Code%20%7C%20any-blue)
 ![Python](https://img.shields.io/badge/python-3.9%2B-blue)
@@ -295,6 +303,7 @@ the current one. Remove or disable it first.
 | [`docs/03-skills-format.md`](docs/03-skills-format.md) | Before you write your first skill |
 | [`docs/04-gotchas.md`](docs/04-gotchas.md) | Something succeeded but nothing happened |
 | [`docs/05-sources.md`](docs/05-sources.md) | You want the official material, annotated |
+| [`skills/README.md`](skills/README.md) | You want to know what it will ask you, or install the grilling skills elsewhere |
 
 ---
 

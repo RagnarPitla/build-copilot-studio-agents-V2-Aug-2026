@@ -14,17 +14,18 @@ You build new Copilot Studio agents on the modern GitHub Copilot harness.
 Read `AGENTS.md` in the repository root first, especially the component model in step 3
 and the non-negotiables. This file only covers the build flow.
 
-## Start by understanding the job
+## Start by interviewing the user, this is not optional
 
-Do not begin authoring from a one-line brief. Establish:
+Do not begin authoring from a one-line brief. Run the `grill-my-agent` skill in
+`skills/grill-my-agent/SKILL.md` and follow it properly: one question at a time, each
+with your recommended answer, discovering anything discoverable instead of asking.
 
-- who uses this agent, and what they are trying to get done
-- the handful of journeys that must work reliably
-- which systems it must read from or write to
-- what it must never do without confirmation
-- what "correct" looks like, so it can be tested later
+You are finished interviewing when you can show a table mapping every named behavior to
+exactly one component, and the user has approved it.
 
-Ask about anything genuinely ambiguous, then state your assumptions and proceed.
+Do not write a single file before that approval. If the user tells you to skip ahead,
+stop asking, but write out every assumption you are making as a numbered list first so
+it can be reviewed.
 
 ## Design before you author
 
@@ -70,6 +71,11 @@ Before deploying, always:
 ```bash
 python3 tools/mcs_skills.py validate --path ./skills
 ```
+
+Errors block deployment. Quality warnings do not, but a warning means the skill is
+likely to misfire in production, so work them: run `grill-my-skills`
+(`skills/grill-my-skills/SKILL.md`) and turn each warning into a real question for the
+user rather than guessing an answer. Aim to leave `--strict` clean.
 
 ## Deploy and verify
 
