@@ -15,6 +15,26 @@ and which tools to call.
 This repo is about moving from the standard harness to the GitHub Copilot harness. The
 Copilot chat harness is a different target and is out of scope here.
 
+**If you have only ever heard of two, that is reasonable.** Nearly all practitioner
+material, including the CAT team blog, discusses only standard versus GitHub Copilot,
+because those are the two you choose between when building an agent in Copilot Studio.
+The Copilot chat harness is a different surface: it extends Microsoft 365 Copilot Chat
+and publishes only to internal teams. Microsoft's own page is unambiguous that there are
+three:
+
+> Everything you build in Copilot Studio runs on a harness:
+>
+> - The **GitHub Copilot harness** powers agents and workflows built for reasoning-heavy,
+>   multi-step work.
+> - The **standard harness** powers rule-based agents and agent flows.
+> - The **Copilot chat harness** for extending Microsoft 365 Copilot.
+>
+> The rest of this article focuses on how **the three harnesses** differ so you can
+> choose the right one for what you're building.
+>
+> [Choose a harness](https://learn.microsoft.com/en-us/microsoft-copilot-studio/harnesses-overview),
+> ms.date 2026-07-28
+
 Microsoft is explicit that this is not a conversion:
 
 > Agents created with the GitHub Copilot harness can't be transferred to the standard

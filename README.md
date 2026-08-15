@@ -54,8 +54,13 @@ three, and only one of them has skills.
 | **How it works** | Reasons through a goal step by step | Follows the topics and rules you define | Grounds M365 Copilot Chat in your content |
 | **Recovers from failure** | Retries, finds another path | Follows the paths you built | Not a focus |
 | **Files** | Creates and edits Word, Excel, PowerPoint, PDF | Not a focus | Not a focus |
-| **Skills and memory** | **Yes** | No | No |
+| **Skills and memory** | **Yes** | Not a focus | Not a focus |
 | **Billing** | Copilot Credits, usage-based | Licensing | Consumption or M365 Copilot USLs |
+
+Source: [Choose a harness](https://learn.microsoft.com/en-us/microsoft-copilot-studio/harnesses-overview).
+"Not a focus" is Microsoft's wording. Independently verified for this repo: skills are
+genuinely unavailable on the standard harness, which is why `add` refuses to run against
+one.
 
 This repo moves agents from the **standard harness** to the **GitHub Copilot harness**.
 Copilot chat is a different target and is out of scope.
