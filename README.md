@@ -1,11 +1,11 @@
-# Copilot Studio: GitHub Copilot Harness
+# Build Copilot Studio Agents with the GitHub Copilot Harness
 
-**Move your Copilot Studio agents onto the GitHub Copilot harness, with skills, from
-just a URL.**
+**Build a new agent on the GitHub Copilot harness, or move an existing one onto it, with
+skills, from just a URL.**
 
-Clone this repo, point your AI coding agent at it, and hand it a Copilot Studio link.
-It upgrades a standard harness agent onto the GitHub Copilot harness, or builds a new
-agent there from a description.
+Clone this repo, point your AI coding agent at it, and describe what you want. It builds
+agents on the GitHub Copilot harness, and it upgrades standard harness agents onto it
+from nothing more than their URL.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 ![Harness](https://img.shields.io/badge/runs%20in-Copilot%20CLI%20%7C%20Claude%20Code%20%7C%20any-blue)
@@ -13,17 +13,20 @@ agent there from a description.
 ![Status](https://img.shields.io/badge/status-working%2C%20early-orange)
 
 ```
+> build an agent that triages bank statement import failures
 > upgrade https://copilotstudio.microsoft.com/environments/<env>/bots/<id>
 ```
 
 That is the whole interface.
 
-The agent resolves the environment, detects which harness you are on, clones the source
-agent, works out where each capability belongs in the new component model, builds a V2
-with skills, deploys it to draft, and then verifies the result by reading it back from
-the server.
+**Build** designs the agent from your description, decides which behavior belongs in
+instructions, knowledge, tools and skills, deploys it to draft, and verifies it.
 
-It never publishes, and it never touches your original agent.
+**Upgrade** resolves the environment, detects which harness you are on, clones the source
+agent, works out where each existing capability belongs in the new component model, builds
+a V2 with skills, deploys to draft, and verifies by reading it back from the server.
+
+Neither one publishes, and upgrade never touches your original agent.
 
 ---
 
@@ -85,8 +88,8 @@ tab. See [usage-based billing](https://learn.microsoft.com/en-us/microsoft-copil
 ## Quick start
 
 ```bash
-git clone https://github.com/RagnarPitla/copilot-studio-github-copilot-harness.git
-cd copilot-studio-github-copilot-harness
+git clone https://github.com/RagnarPitla/build-copilot-studio-agents.git
+cd build-copilot-studio-agents
 
 pip install -r tools/requirements.txt   # PyYAML, that is all
 az login

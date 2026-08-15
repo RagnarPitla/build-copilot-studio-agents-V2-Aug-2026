@@ -1,4 +1,4 @@
-# Copilot Studio: GitHub Copilot Harness
+# Build Copilot Studio Agents with the GitHub Copilot Harness
 
 Read [AGENTS.md](AGENTS.md). It is the single source of truth for how to work in this
 repository and applies to Claude Code exactly as written.

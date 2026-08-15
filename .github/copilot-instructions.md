@@ -1,4 +1,4 @@
-# Copilot Studio: GitHub Copilot Harness
+# Build Copilot Studio Agents with the GitHub Copilot Harness
 
 Read [AGENTS.md](../AGENTS.md) before doing anything in this repository. It is the
 source of truth for the method, the component model, and the rules.
