@@ -1,8 +1,17 @@
 # Skills format
 
-How a skill is actually stored, verified against real skills in a live environment.
-This is not publicly documented at the storage level, and it is not what you would
-guess, so it is written down here in full.
+Two layers, and it matters which one you need.
+
+- **The authoring format** (`SKILL.md`, front matter, zip packages) **is officially
+  documented** by Microsoft. See
+  [Skills overview](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/skills-overview)
+  and [Add an existing skill](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/skills-add-existing).
+  What this repo produces matches it exactly, and that was confirmed against those pages.
+- **The storage format** (how the skill lands in Dataverse) **is not documented
+  anywhere.** You only need it if you deploy programmatically instead of uploading
+  through the portal, which is exactly what the tooling here does.
+
+This document covers both, verified against real skills in a live environment.
 
 ---
 
@@ -40,8 +49,32 @@ skill by reading it, so it must describe when the skill applies, not just what i
 A vague description means the skill never fires. Write it for a dispatcher, and include
 the situations, phrases and conditions that should trigger it.
 
-Rules for `name`: lowercase letters, digits and single hyphens. It also becomes part of
-the Dataverse `schemaname`, which is capped at 100 characters, so keep it short.
+Rules for `name`, which match Microsoft's documented rule exactly: lowercase letters,
+digits and single hyphens, and it must not start or end with a hyphen. It also becomes
+part of the Dataverse `schemaname`, which is capped at 100 characters, so keep it short.
+
+---
+
+## You do not always need the storage format
+
+There is a supported path that needs none of the internals below. In the portal, open
+the agent, go to the **Build** tab, select **Skills** in the components panel, then
+**Add skill** and **Upload a skill**. It accepts either:
+
+- a single Markdown file with the front matter and instructions, or
+- a **ZIP** containing `SKILL.md` plus optional supporting files such as scripts,
+  templates and reference documents.
+
+`package` in this repo builds exactly that ZIP:
+
+```bash
+python3 tools/mcs_skills.py package --path ./my-skills --out ./dist
+```
+
+So the honest guidance is: **uploading through the portal is the supported route, and
+you should prefer it for one or two skills.** The programmatic path below is worth it
+when you are deploying many skills, repeating a deployment across environments, or
+scripting an upgrade, which is the case this repo is built for.
 
 ---
 

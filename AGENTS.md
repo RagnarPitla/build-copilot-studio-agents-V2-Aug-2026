@@ -1,4 +1,4 @@
-# Copilot Studio Glow Up
+# Copilot Studio: GitHub Copilot Harness
 
 Instructions for any AI coding agent working in this repository.
 GitHub Copilot CLI, Claude Code, Codex and Cursor all read this file.
@@ -26,6 +26,10 @@ never publish without asking.
    skill and every variable into memory reproduces yesterday's structure in new YAML.
 5. **State what you did not verify.** If you could not test something, say so plainly
    rather than implying it works.
+6. **Tell the user that billing changes.** The GitHub Copilot harness bills with Copilot
+   Credits, usage-based, and unlike the standard harness it **starts charging when you
+   start building**, not at publish. Building, previewing, testing and generating
+   evaluations all consume credits. Say this once, early, before a long build.
 
 ---
 
@@ -40,6 +44,13 @@ The user gives you a Copilot Studio URL. Read the path segment:
 
 The URL can be stale, so confirm against the environment. The authoritative signal is
 the recognizer: `GenerativeAIRecognizer` is classic, `CLICopilotRecognizer` is modern.
+
+There is a third harness, **Copilot chat**, for extending Microsoft 365 Copilot Chat.
+It is out of scope here. If the user is on it, say so rather than trying to upgrade it.
+
+Microsoft states plainly that agents "can't be transferred" between the GitHub Copilot
+harness and the standard harness. That is the official reason an upgrade produces a new
+agent rather than converting one in place.
 
 ```bash
 python3 tools/mcs_skills.py assess --env-url <dataverse-url> --bot-id <guid>
@@ -111,6 +122,7 @@ and inspectable.**
 | **Memory** | context that must persist |
 | **Skills** | situational, reusable, multi-step procedures |
 | **Connected agents** | genuine specialist domains |
+| **Model** | which model does the reasoning. Set it deliberately, do not just accept the default |
 
 Deciding between them:
 
@@ -174,6 +186,19 @@ python3 tools/mcs_skills.py add --env-url <env> --bot-id <guid> --path ./my-skil
 **`pac copilot push` does not create skills.** It reports success and silently creates
 nothing for new ones. This is the single most expensive trap in this repo. Skills go
 through `mcs_skills.py`, which writes them the way the product actually stores them.
+
+**There is a supported no-code alternative, and you should offer it.** For one or two
+skills, or when the user cannot or does not want to grant API access, build packages and
+let them upload through the portal instead:
+
+```bash
+python3 tools/mcs_skills.py package --path ./my-skills --out ./dist
+```
+
+Then: agent, **Build** tab, **Skills** in the components panel, **Add skill**,
+**Upload a skill**. It accepts a single `.md` or a `.zip` with `SKILL.md` plus
+supporting files. Use `add` when deploying many skills, repeating across environments,
+or scripting the whole upgrade.
 
 ---
 

@@ -7,12 +7,20 @@ while building the kit.
 
 ## Official product documentation
 
+The authoritative source. Where this repo and a blog post disagree, this wins.
+
 | Link | Covers |
 |---|---|
-| [Agents experience overview](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/overview) | The GitHub Copilot harness itself |
-| [Skills overview](https://learn.microsoft.com/microsoft-copilot-studio/agents-experience/skills-overview) | What skills are and when to use them |
-| [Knowledge](https://learn.microsoft.com/microsoft-copilot-studio/agents-experience/knowledge-copilot-studio) | Grounding and retrieval |
-| [Tools overview](https://learn.microsoft.com/microsoft-copilot-studio/agents-experience/tools-overview) | Actions and integrations |
+| [Choose a harness](https://learn.microsoft.com/en-us/microsoft-copilot-studio/harnesses-overview) | **Start here.** All three harnesses compared, and the statement that agents cannot be transferred between them |
+| [Agents overview](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/overview) | The GitHub Copilot harness, its components, the agent lifecycle, and the Build / Preview / Evaluate / Monitor tabs |
+| [Build an agent](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/build-overview) | The Build tab in detail: instructions editor plus the components panel |
+| [Skills overview](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/skills-overview) | What skills are, and the official `SKILL.md` plus ZIP package format |
+| [Create a skill](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/skills-create) | Authoring in the portal, and the naming rule this repo validates against |
+| [Add an existing skill](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/skills-add-existing) | Uploading a `.md` or a `.zip`. The supported no-code deployment path |
+| [Usage-based billing](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/billing-credit-overview) | Copilot Credits. Billing starts when you start building, not at publish |
+| [Tools overview](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/tools-overview) | Actions and integrations |
+| [Memory](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/memory-overview) | Persistent context across conversations |
+| [Select a model](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/authoring-select-agent-model) | Model choice, a component this repo previously omitted |
 | [Power Platform CLI](https://learn.microsoft.com/en-us/power-platform/developer/cli/introduction) | `pac`, required newer than 2.9.3 |
 | [About GitHub Copilot CLI](https://docs.github.com/en/copilot/concepts/agents/about-copilot-cli) | The CLI harness this repo runs under |
 
@@ -95,7 +103,13 @@ showing where each responsibility belongs.
 
 ## Verified independently for this repo
 
-The storage format in `03-skills-format.md` is not documented publicly. It was derived
-by inspecting real skill components in a live environment and confirmed by deploying,
-reading back and diffing. Where this repo states a format detail, it was checked against
-a live tenant rather than inferred. See `04-gotchas.md` for what that process caught.
+The **authoring** format is documented by Microsoft, and what this repo produces was
+checked against those pages and matches: `SKILL.md`, YAML front matter carrying `name`
+and `description`, Markdown instructions, and an optional ZIP with supporting files.
+
+The **storage** format in `03-skills-format.md` is not documented anywhere. It was
+derived by inspecting real skill components in a live environment and confirmed by
+deploying, reading back and diffing. Where this repo states a storage detail, it was
+checked against a live tenant rather than inferred. See `04-gotchas.md` for what that
+process caught, including the component type that accepts skills and silently never
+renders them.

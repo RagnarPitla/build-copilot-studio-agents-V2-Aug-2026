@@ -1,4 +1,4 @@
-# Copilot Studio Glow Up
+# Copilot Studio: GitHub Copilot Harness
 
 Read [AGENTS.md](AGENTS.md). It is the single source of truth for how to work in this
 repository and applies to Claude Code exactly as written.

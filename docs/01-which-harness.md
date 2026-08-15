@@ -1,7 +1,44 @@
 # Which harness am I on?
 
-Answer this before touching anything. Copilot Studio has two agent shapes. They are not
-versions of the same thing, and content does not port between them without a redesign.
+Answer this before touching anything.
+
+Copilot Studio has **three** harnesses. A harness is the runtime between your agent and
+the model: it decides when to call the model, what to send it, how to read the response,
+and which tools to call.
+
+| Harness | Powers | Skills? |
+|---|---|---|
+| **GitHub Copilot harness** | Reasoning-heavy, multi-step work | **Yes** |
+| **Standard harness** | Rule-based agents, agent flows, topics | No |
+| **Copilot chat harness** | Extending Microsoft 365 Copilot Chat | No |
+
+This repo is about moving from the standard harness to the GitHub Copilot harness. The
+Copilot chat harness is a different target and is out of scope here.
+
+Microsoft is explicit that this is not a conversion:
+
+> Agents created with the GitHub Copilot harness can't be transferred to the standard
+> harness, and vice versa.
+
+That is why an upgrade here always creates a **new** agent, and why porting one for one
+is the wrong instinct. See
+[Choose a harness](https://learn.microsoft.com/en-us/microsoft-copilot-studio/harnesses-overview).
+
+---
+
+## Billing changes when you cross harnesses
+
+Worth knowing before you recommend an upgrade, because it surprises people:
+
+| | Standard harness | GitHub Copilot harness |
+|---|---|---|
+| Unit | Licensing, see Copilot Studio licensing | **Copilot Credits**, usage-based |
+| Billing starts | After you publish | **The moment you start building** |
+| What consumes it | Published usage | LLM tokens, tools, knowledge, MCP, and the harness itself |
+
+Building, previewing, testing and generating evaluations all consume credits on the
+GitHub Copilot harness. Credit consumption is visible on the agent's **Monitor** tab.
+See [usage-based billing](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/billing-credit-overview).
 
 ---
 

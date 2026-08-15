@@ -1,13 +1,14 @@
-# Copilot Studio Glow Up
+# Copilot Studio: GitHub Copilot Harness
 
-**Give your Copilot Studio agents a glow up.**
+**Move your Copilot Studio agents onto the GitHub Copilot harness, with skills, from
+just a URL.**
 
-Clone this repo, point your AI coding agent at it, and hand it a Copilot Studio URL.
-It upgrades a classic agent to the modern GitHub Copilot harness with skills, or builds
-a new one from a description.
+Clone this repo, point your AI coding agent at it, and hand it a Copilot Studio link.
+It upgrades a standard harness agent onto the GitHub Copilot harness, or builds a new
+agent there from a description.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-![Harness](https://img.shields.io/badge/harness-Copilot%20CLI%20%7C%20Claude%20Code%20%7C%20any-blue)
+![Harness](https://img.shields.io/badge/runs%20in-Copilot%20CLI%20%7C%20Claude%20Code%20%7C%20any-blue)
 ![Python](https://img.shields.io/badge/python-3.9%2B-blue)
 ![Status](https://img.shields.io/badge/status-working%2C%20early-orange)
 
@@ -17,38 +18,70 @@ a new one from a description.
 
 That is the whole interface.
 
-The agent resolves the environment, detects which harness you are on, clones the classic
-agent, works out where each capability belongs in the new model, builds a V2 with skills,
-deploys it to draft, and then verifies the result by reading it back from the server.
+The agent resolves the environment, detects which harness you are on, clones the source
+agent, works out where each capability belongs in the new component model, builds a V2
+with skills, deploys it to draft, and then verifies the result by reading it back from
+the server.
 
 It never publishes, and it never touches your original agent.
 
 ---
 
-## What a glow up actually changes
+## Why it creates a new agent instead of converting yours
 
-Upgrading is a redesign, not a file conversion. The two harnesses think differently.
+Because Microsoft says you cannot convert one:
 
-| | Standard harness (classic) | GitHub Copilot harness (modern) |
-|---|---|---|
-| Core unit | Topics and dialogs | Instructions, knowledge, tools, memory, skills, connected agents |
-| Behavior lives in | Trigger phrases and node graphs | The smallest component that makes it reliable and inspectable |
-| Reuse | Copy the topic | Share the skill |
-| Exact maths, file output | Model predicts it | Skill ships a Python script the sandbox runs |
-| Editing | Portal canvas | Markdown and YAML in your editor, in git |
+> Agents created with the GitHub Copilot harness can't be transferred to the standard
+> harness, and vice versa.
+>
+> [Choose a harness](https://learn.microsoft.com/en-us/microsoft-copilot-studio/harnesses-overview)
 
-Which is why porting one for one is the wrong move. You end up with a modern agent shaped
-like a classic one. This repo asks a different question for every capability: **what
-outcome does this deliver for a user**, and what is now the smallest component that
-delivers it.
+So an upgrade is a rebuild, and the interesting question is not "where does this topic
+go" but "what outcome does this deliver, and what is now the smallest component that
+delivers it". Port one for one and you get a modern agent shaped like a standard one.
+
+---
+
+## The three harnesses
+
+A harness is the runtime between your agent and the model. It decides when to call the
+model, what to send, how to read the answer, and which tools to call. Copilot Studio has
+three, and only one of them has skills.
+
+| | GitHub Copilot harness | Standard harness | Copilot chat harness |
+|---|---|---|---|
+| **Best for** | Complex, multi-step business processes | Rule-based agents, structured conversations | Extending M365 Copilot Chat |
+| **How it works** | Reasons through a goal step by step | Follows the topics and rules you define | Grounds M365 Copilot Chat in your content |
+| **Recovers from failure** | Retries, finds another path | Follows the paths you built | Not a focus |
+| **Files** | Creates and edits Word, Excel, PowerPoint, PDF | Not a focus | Not a focus |
+| **Skills and memory** | **Yes** | No | No |
+| **Billing** | Copilot Credits, usage-based | Licensing | Consumption or M365 Copilot USLs |
+
+This repo moves agents from the **standard harness** to the **GitHub Copilot harness**.
+Copilot chat is a different target and is out of scope.
+
+---
+
+## Know this before you upgrade: billing changes
+
+Not a footnote. On the GitHub Copilot harness:
+
+- Usage is billed in **Copilot Credits**, usage-based.
+- Credits cover LLM tokens, tools, knowledge, MCP, and the harness itself.
+- **Billing starts when you start building**, not when you publish. Building, previewing,
+  testing and generating evaluations all consume credits.
+
+That is a real change from the standard harness, which bills after publish. Check your
+credit position before a large migration. Consumption shows on the agent's **Monitor**
+tab. See [usage-based billing](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/billing-credit-overview).
 
 ---
 
 ## Quick start
 
 ```bash
-git clone https://github.com/RagnarPitla/copilot-studio-glow-up.git
-cd copilot-studio-glow-up
+git clone https://github.com/RagnarPitla/copilot-studio-github-copilot-harness.git
+cd copilot-studio-github-copilot-harness
 
 pip install -r tools/requirements.txt   # PyYAML, that is all
 az login
@@ -81,7 +114,7 @@ claude
 
 ## Try it read-only first
 
-Nothing here writes until you ask it to. Point `assess` at any agent and see what you have:
+Nothing writes until you ask. Point `assess` at any agent and see what you have:
 
 ```bash
 python3 tools/mcs_skills.py assess \
@@ -107,6 +140,29 @@ No GUID handy? `python3 tools/mcs_skills.py agents --env-url <url>` lists them.
 
 ---
 
+## Where behavior goes
+
+The GitHub Copilot harness spreads behavior across components configured on the **Build**
+tab. The rule that keeps an agent maintainable: **every behavior belongs in the smallest
+component that makes it reliable and inspectable.**
+
+| Component | Holds | Reach for it when |
+|---|---|---|
+| **Instructions** | Identity, tone, scope, what is always true | It applies to every conversation |
+| **Knowledge** | Searchable, citable sources | The agent needs to *search* it |
+| **Tools** | Connectors, MCP servers, REST APIs, workflows | It is a single system call |
+| **Skills** | Reusable structured procedures | The agent needs to *follow* it, step by step |
+| **Memory** | Context that survives the conversation | It must persist |
+| **Connected agents** | Specialist domains | It has its own genuine remit |
+| **Model** | Which model reasons | Always. Choose it deliberately |
+
+A standard-harness topic rarely becomes a skill. Most become instructions plus a tool.
+
+> Don't turn every topic into a Skill and every variable into memory. That's archaeology
+> with YAML.
+
+---
+
 ## What you get
 
 | Path | What it is |
@@ -117,59 +173,54 @@ No GUID handy? `python3 tools/mcs_skills.py agents --env-url <url>` lists them.
 | `tools/mcs_skills.py` | Assess agents, deploy skills, verify them. PyYAML is the only dependency |
 | `docs/` | Harness differences, upgrade playbook, skill format, gotchas, sources |
 | `templates/skill-template/` | A starter `SKILL.md` with the front matter filled in |
-| `examples/` | Six real skills from a deployed D365 finance agent, with their templates and reference files |
+| `examples/` | Six real skills from a deployed D365 finance agent, with templates and reference files |
 
 The examples are not toys. They are the skills from a working bank reconciliation agent,
 including the CSV templates and reference material they load at runtime.
 
 ---
 
-## Where behavior goes
+## On skills, and what is actually undocumented
 
-The rule from Microsoft's orchestrator guidance, and the spine of this repo: **every
-behavior belongs in the smallest component that makes it reliable and inspectable.**
+Microsoft documents the **authoring** format, and this repo matches it exactly: a
+`SKILL.md` with YAML front matter carrying `name` and `description`, Markdown
+instructions, and an optional ZIP with supporting files such as scripts and templates.
+That was checked against
+[Skills overview](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/skills-overview)
+and confirmed, including the naming rule this repo validates against.
 
-| Component | Holds | Reach for it when |
-|---|---|---|
-| **Instructions** | What is always true | It applies to every conversation |
-| **Knowledge** | Searchable, citable facts | The agent needs to *search* it |
-| **Tools** | System actions | It is a single function call |
-| **Memory** | Context that must persist | It has to survive the turn |
-| **Skills** | Situational reusable procedures | The agent needs to *follow* it, step by step |
-| **Connected agents** | Specialist domains | It has its own genuine remit |
+**So use the supported path when it fits.** For one or two skills, package and upload:
 
-A classic topic rarely becomes a skill. Most become instructions plus a tool.
+```bash
+python3 tools/mcs_skills.py package --path ./my-skills --out ./dist
+```
 
-> Don't turn every topic into a Skill and every variable into memory. That's archaeology
-> with YAML.
+Then in the portal: **Build** tab, **Skills**, **Add skill**, **Upload a skill**. It
+takes a `.md` or a `.zip`.
+
+What is *not* documented anywhere is the **storage** format, how a skill actually lands
+in Dataverse. You need it only when deploying programmatically rather than clicking
+upload, which is what an automated upgrade does. That is in
+[`docs/03-skills-format.md`](docs/03-skills-format.md), derived from real skills in a
+live tenant and confirmed by deploying, reading back and diffing.
 
 ---
 
-## Why this repo exists
+## The traps
 
-Three reasons, in order of how much time they save you.
+All twelve are in [`docs/04-gotchas.md`](docs/04-gotchas.md). The expensive ones:
 
-**1. The skill storage format is not publicly documented, and the obvious guess is wrong.**
-
-There is a component type that looks exactly like the right one for a skill. Write a skill
-there and the API accepts it, `pac` round trips it perfectly, every tool reports success,
-and the skill never appears in the product. It is invisible. `docs/03-skills-format.md`
-has the format that actually works, derived from real skills in a live tenant and then
-confirmed by deploying, reading back and diffing.
-
-**2. The traps are expensive and silent.** All twelve are in `docs/04-gotchas.md`:
-
-- `pac copilot push` does not create skills. It reports success and creates nothing.
-- A clean `pac` round trip proves nothing. `pac` echoes stored data back verbatim,
+- **There is a component type that looks exactly right for a skill and is not.** Write a
+  skill there and the API accepts it, `pac` round trips it, every tool reports success,
+  and the skill never appears in the product. Silently invisible.
+- **`pac copilot push` does not create skills.** It reports success and creates nothing.
+- **A clean `pac` round trip proves nothing.** `pac` echoes stored data back verbatim,
   including formats the product cannot render. `kind: TotallyMadeUpKind` round trips fine.
-- The language server reports false schema errors on every valid skill file.
-- `pac copilot init` gives you a classic agent unless you pass `--authoring-mode cli-copilot`.
-- The environment GUID in the portal URL is not the Dataverse URL.
-- The legacy `skills-for-copilot-studio` plugin conflicts with the current one.
-
-**3. Generated upgrades need verifying, and most tooling stops at "done".** Everything
-here checks its own work by reading back from the server, because a success message is
-not evidence.
+- **The language server reports false schema errors** on every valid skill file.
+- **`pac copilot init` gives you a standard harness agent** unless you pass
+  `--authoring-mode cli-copilot`.
+- **The environment GUID in the portal URL is not the Dataverse URL.**
+- **The legacy `skills-for-copilot-studio` plugin conflicts** with the current one.
 
 ---
 
@@ -186,7 +237,7 @@ python3 tools/mcs_skills.py <command> --help
 | `list` | Skills on an agent | No |
 | `validate` | Check `SKILL.md` files offline | No |
 | `export` | Pull deployed skills back to `SKILL.md` | No |
-| `package` | One shareable zip per skill, supporting files included | No |
+| `package` | One uploadable zip per skill, supporting files included | No |
 | `add` | Create or update skills, idempotent | Draft |
 | `remove` | Delete a skill | Draft |
 
@@ -197,8 +248,8 @@ Nothing publishes. Ever. That stays your call.
 ## Safety rails
 
 - **Draft only.** The tools deploy to draft. Publishing makes an agent live for everyone
-  it is shared with, so it is always left to you, with the exact command handed back.
-- **Your original agent is never touched.** An upgrade creates a new agent so you can
+  it is shared with, so it is left to you, with the exact command handed back.
+- **Your original agent is never touched.** An upgrade creates a new agent, so you can
   compare the two and roll back by doing nothing.
 - **Verification is from the server.** Read back and diff, never trust a 201.
 - **Honest reporting.** The agents are told to state plainly what they could not verify
@@ -216,10 +267,10 @@ the upgrade:
 /plugin install mcs-assistant@copilot-studio-plugin
 ```
 
-**If it fits your setup, use it.** This repo is not trying to replace it and recommends it
-where it fits. What this adds: it is harness-agnostic, it carries the verified skill
-storage format, and it supplies the verification step that any generated upgrade still
-needs, since Microsoft is explicit that the output is a first draft for review.
+**If it fits your setup, use it.** This repo is not trying to replace it and recommends
+it where it fits. What this adds: it is harness-agnostic, it carries the verified storage
+format, and it supplies the verification step that any generated upgrade still needs,
+since Microsoft is explicit that the output is a first draft for review.
 
 One warning worth repeating: the older `skills-for-copilot-studio` plugin conflicts with
 the current one. Remove or disable it first.
@@ -235,7 +286,7 @@ the current one. Remove or disable it first.
 | [`docs/02-upgrade-playbook.md`](docs/02-upgrade-playbook.md) | You are doing an upgrade by hand |
 | [`docs/03-skills-format.md`](docs/03-skills-format.md) | Before you write your first skill |
 | [`docs/04-gotchas.md`](docs/04-gotchas.md) | Something succeeded but nothing happened |
-| [`docs/05-sources.md`](docs/05-sources.md) | You want the official material |
+| [`docs/05-sources.md`](docs/05-sources.md) | You want the official material, annotated |
 
 ---
 
@@ -243,12 +294,12 @@ the current one. Remove or disable it first.
 
 Early but working. The tooling has been exercised end to end against live agents: full
 create, update, read back, diff and delete, plus lossless export round trips and refusal
-cases. What has had less mileage is the breadth of classic agents in the wild, so if an
-upgrade produces something odd, that is the interesting bug.
+cases. What has had less mileage is the sheer variety of standard-harness agents in the
+wild, so if an upgrade produces something odd, that is the interesting bug.
 
 Issues and pull requests welcome, especially:
 
-- classic agents whose shape the assessment gets wrong
+- agents whose harness or shape the assessment gets wrong
 - skills that deploy but do not behave as expected
 - anything in `docs/04-gotchas.md` that turns out to be fixed
 
@@ -256,9 +307,10 @@ Issues and pull requests welcome, especially:
 
 ## Credits
 
-Built on the public guidance from Microsoft's Copilot Studio CAT team, in particular their
-orchestrator resources, agent sandbox and migration plugin posts. Full reading list with
-notes on what each one is good for in [`docs/05-sources.md`](docs/05-sources.md).
+Built on Microsoft Learn documentation for the GitHub Copilot harness, and on the public
+guidance from Microsoft's Copilot Studio CAT team, in particular their orchestrator
+resources, agent sandbox and migration plugin posts. Full annotated reading list in
+[`docs/05-sources.md`](docs/05-sources.md).
 
 ## License
 
