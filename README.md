@@ -303,6 +303,8 @@ the current one. Remove or disable it first.
 | [`docs/03-skills-format.md`](docs/03-skills-format.md) | Before you write your first skill |
 | [`docs/04-gotchas.md`](docs/04-gotchas.md) | Something succeeded but nothing happened |
 | [`docs/05-sources.md`](docs/05-sources.md) | You want the official material, annotated |
+| [`docs/06-discovery.md`](docs/06-discovery.md) | You want the actual questions, to ask yourself or to check the agent asked them |
+| [`docs/07-skill-quality.md`](docs/07-skill-quality.md) | Your skill is valid but misfires, with a worked weak-to-strong rewrite |
 | [`skills/README.md`](skills/README.md) | You want to know what it will ask you, or install the grilling skills elsewhere |
 
 ---

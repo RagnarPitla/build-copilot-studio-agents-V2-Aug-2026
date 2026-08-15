@@ -23,22 +23,50 @@ The authoritative source. Where this repo and a blog post disagree, this wins.
 | [Select a model](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/authoring-select-agent-model) | Model choice, a component this repo previously omitted |
 | [Power Platform CLI](https://learn.microsoft.com/en-us/power-platform/developer/cli/introduction) | `pac`, required newer than 2.9.3 |
 | [Dynamics 365 ERP MCP](https://learn.microsoft.com/en-us/dynamics365/fin-ops-core/dev-itpro/copilot/copilot-mcp) | The finance and operations tool surface. Read before designing any F&O skill |
+| [Improved data tools, 2026 wave 1](https://learn.microsoft.com/en-us/dynamics365/release-plan/2026wave1/enterprise-resource-planning/finance-operations-crossapp-capabilities/improve-performance-accuracy-data-tools-dynamics-365-erp-mcp-server) | OData to SQL, GA 24 April 2026. The best official statement of why skill design matters |
+| [Copilot Cowork for ERP, 2026 wave 1](https://learn.microsoft.com/en-us/dynamics365/release-plan/2026wave1/enterprise-resource-planning/finance-operations-crossapp-capabilities/use-copilot-cowork-orchestrate-insights-actions-across-dynamics-365-erp) | Ask whether Microsoft is already building what you are about to build |
+| [Use Copilot Cowork with ERP](https://learn.microsoft.com/en-us/dynamics365/fin-ops-core/fin-ops/copilot/use-copilot-cowork-erp) | The how-to, once you have decided it is relevant |
+| [Enable the ERP plugin for Cowork](https://learn.microsoft.com/en-us/dynamics365/fin-ops-core/dev-itpro/copilot/enable-copilot-cowork-erp) | Admin prerequisites |
 
-### One dated fact worth acting on
+### Three dated facts worth acting on
 
-The Dynamics 365 ERP MCP page carries a deadline that affects upgrades happening now.
-The older **static** ERP MCP server, the one built on the Dataverse connector framework
-with 13 fixed tools, **retires on 1 October 2026**. The replacement is the dynamic server,
-which exposes three categories instead: data tools for CRUD through data entities, form
-tools for what a user can do on a page, and action tools that invoke X++ classes.
+**The static ERP MCP server retires on 1 October 2026.** That is the older server built on
+the Dataverse connector framework with 13 fixed tools. The replacement is the dynamic
+server, which exposes three categories instead: data tools for CRUD through data entities,
+form tools for what a user can do on a page, and action tools that invoke X++ classes. If
+you are upgrading an agent that depends on the static server, that is not a detail to find
+late. `grill-my-agent` raises it during the interview.
 
-If you are upgrading an agent that depends on the static server, that is not a detail to
-find late. `grill-my-agent` raises it during the interview.
+**Data tools moved from OData to SQL, generally available 24 April 2026.** Microsoft's
+stated reason is the clearest official support for this repo's whole argument. OData's
+limits on aggregation and query operators left, in their words, "much of the data
+aggregation to the agent's large language model rather than deterministic operations in
+the data retrieval". Moving to SQL makes the retrieval deterministic.
 
-The same page also gives a piece of guidance worth reusing: when an agent reaches for
-form tools where data tools would be faster, the documented fix is to **name the preferred
-tool in the agent's instructions**. That is a good example of behavior that belongs in
-instructions rather than in a skill.
+Two things follow. When you write a skill, push aggregation into the query rather than
+retrieving rows and asking the model to total them, because a model produces a plausible
+number rather than a correct one. And when you upgrade an older agent, look specifically
+for that retrieve-then-let-the-model-add-it-up pattern: it was a workaround for a platform
+limitation that no longer exists, and carrying it forward preserves a problem you no
+longer have.
+
+**Copilot Cowork entered public preview in July 2026, with no announced GA.** It
+orchestrates across ERP data, email, documents and spreadsheets, keeping a human in the
+loop. Before building a custom agent for cross-app F&O orchestration, it is worth asking
+whether Microsoft is about to ship it. The honest answer is usually not "wait", because
+preview scope is narrow by design, an initial set of finance and supply chain scenarios
+with limited action coverage, available to selected customers, and release plans carry
+Microsoft's own warning that projected functionality may not be released. But it is worth
+five minutes before you spend three weeks.
+
+### One note on method
+
+The `copilot-mcp` page and both release plan pages were read through Learn's
+`?accept=text/markdown` endpoint, which returns clean source rather than truncated HTML.
+
+A search engine also offered a fourth Cowork URL under `dev-itpro/cowork/`. It returns
+404. Every link in the table above was checked with `curl` before being written down,
+which is the only reason that one is not sitting in this file looking authoritative.
 | [About GitHub Copilot CLI](https://docs.github.com/en/copilot/concepts/agents/about-copilot-cli) | The CLI harness this repo runs under |
 
 ---

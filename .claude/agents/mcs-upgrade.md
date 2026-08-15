@@ -99,9 +99,26 @@ python3 tools/mcs_skills.py export --env-url <dataverse-url> --bot-id <new-bot-g
 diff -r ./skills /tmp/verify
 ```
 
-A clean diff is your evidence. Without it you have not finished.
+A clean diff is your evidence that the files landed. It is not evidence that the agent
+behaves.
 
-**8. Report.**
+**8. Refine against the source agent's real behavior.**
+
+You have something a new build does not: an agent that already works. Use it as the
+test oracle. Take the journeys you and the user agreed were worth keeping, run them
+against V2, and compare.
+
+1. Wrong skill fired, or none did? Fix the routing description, that is what the
+   orchestrator matches on.
+2. Right skill, wrong answer? Fix the body: a missing step, an undefined input, or
+   arithmetic in prose that should be a script.
+3. Re-run `validate --strict`, `add` again, re-test the same journeys.
+4. Stop when they pass, or when you can say precisely why one cannot.
+
+A regression against the classic agent is the one result you must never quietly drop.
+Report it even when you cannot fix it.
+
+**9. Report.**
 
 - every capability, and where it landed
 - what did not carry across, and why

@@ -168,6 +168,14 @@ Write skills that state: when to invoke, required inputs, what to ask when input
 missing, the steps, confirmation rules for anything with side effects, expected output,
 and what to do on failure. Prefer several focused skills over one large one.
 
+That list is the rubric `validate` checks, and `docs/07-skill-quality.md` explains what
+each check is really asking, with a worked rewrite of a weak skill into a strong one.
+
+Do not start from a one-line brief. Interview the user first: `skills/grill-my-agent`
+is the runnable version, `docs/06-discovery.md` is the question bank behind it. You are
+finished interviewing when every behavior is mapped to exactly one component and the
+user has approved that mapping.
+
 Before deploying:
 
 ```bash

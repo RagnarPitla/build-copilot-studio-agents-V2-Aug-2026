@@ -88,5 +88,21 @@ diff -r ./skills /tmp/verify
 
 `pac copilot push` does not create skills. Use `mcs_skills.py add`.
 
-A clean diff is the evidence that the build landed. Report what you verified and what
-you did not, then give the user the publish command rather than publishing yourself.
+A clean diff is the evidence that the build landed. It is not evidence that the agent
+behaves, so do not stop here.
+
+## Refine before you report
+
+A clean diff means the files arrived. Run the agent against the concrete examples the
+user gave you during the interview, the ones where they told you what a correct response
+looks like. Then close the loop:
+
+1. Note where the wrong skill fired, or none did. That is nearly always the routing
+   description, not the skill body, since the orchestrator matches on the description.
+2. Note where the right skill fired but the answer was wrong. That is the body: a missing
+   step, an undefined input, or arithmetic in prose that should be a script.
+3. Fix, re-run `validate --strict`, `add` again, and re-test the same examples.
+4. Stop when the examples pass or when you have a specific reason you cannot fix it.
+
+Then report: every behavior and where it landed, what you tested and what passed, what
+you did not verify, and the publish command for the user to run. Do not publish yourself.

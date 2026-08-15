@@ -47,15 +47,30 @@ agent do" but "what does a good day look like for the person using it".
 2. **The journeys.** Which handful of paths must work reliably? Get me to name them.
 Everything else is a nice-to-have, and naming them now stops scope creep later.
 
-3. **For an upgrade: what is worth keeping.** Go capability by capability through what
+3. **Whether to build this at all.** Ask this while it is still cheap. If the journeys
+are Dynamics 365 finance and operations work that spans ERP plus email, documents and
+spreadsheets, then say plainly that Microsoft is building **Copilot Cowork** for exactly
+that shape of problem, and give me the caveats rather than the headline:
+
+   - It entered public preview in July 2026 with no announced GA date.
+   - Preview scope is deliberately narrow: an initial set of finance and supply chain
+     scenarios, limited action coverage for transactional workflows, selected customers.
+   - It is a release plan, and release plans carry Microsoft's own warning that projected
+     functionality may change or may not ship.
+
+   So the recommendation is usually not "wait". It is: build the thing that is specific
+   to my business, and do not spend weeks rebuilding generic cross-app orchestration that
+   is arriving anyway. Ask me which of our journeys fall on each side of that line.
+
+4. **For an upgrade: what is worth keeping.** Go capability by capability through what
 you found. For each one ask: does this still earn its place? Some topics exist because
 the old harness needed them, not because anyone wants them. Upgrading is the moment to
 drop those, and I will not think of it unless you ask.
 
-4. **Systems.** What must it read from, and what must it write to? Read and write are
+5. **Systems.** What must it read from, and what must it write to? Read and write are
 very different risk profiles, so separate them explicitly.
 
-5. **The actual tool surface, not the imagined one.** Never design a skill against tools
+6. **The actual tool surface, not the imagined one.** Never design a skill against tools
 you assume exist. Ask me which MCP servers and connectors this agent will have, then go
 and look at what they really expose before writing a step that calls them.
 
@@ -69,6 +84,16 @@ and look at what they really expose before writing a step that calls them.
      both performance and number of tool calls, and that if the agent reaches for form
      tools where data tools would do, you fix it **by naming the preferred tool in the
      agent instructions**. Ask me whether we have scenarios that need that steer.
+   - Data tools moved from OData to **SQL**, generally available 24 April 2026. Microsoft's
+     stated reason is worth quoting back to me, because it is the whole argument for
+     designing skills carefully: OData's limits on aggregation left "much of the data
+     aggregation to the agent's large language model rather than deterministic operations
+     in the data retrieval". So push aggregation into the query. Do not retrieve rows and
+     ask the model to total them, because it will produce a plausible number rather than
+     a correct one.
+   - If I am upgrading an agent built before that change, look specifically for the
+     retrieve-then-let-the-model-add-it-up pattern. That was a workaround for a platform
+     limitation that no longer exists, and it is the clearest example of question 8.
    - There is an older **static** ERP MCP server with 13 fixed tools, and it **retires on
      1 October 2026**. If I am upgrading an agent that uses it, tell me that plainly and
      early, because it changes the scope of the upgrade.
@@ -79,7 +104,7 @@ and look at what they really expose before writing a step that calls them.
    For any other MCP or connector, ask the same underlying question: what does it
    actually expose, what does it require, and what does it refuse to do?
 
-6. **Documents in.** If the agent ingests documents, ask me for real samples before
+7. **Documents in.** If the agent ingests documents, ask me for real samples before
 writing anything, and say why you are asking: a skill written against an imagined layout
 will look right and fail on my actual files.
 
@@ -91,7 +116,7 @@ will look right and fail on my actual files.
    Ask which fields must be extracted exactly and which can be inferred. Anything that
    must be exact and then arithmetic on top of it belongs in a script, not in prose.
 
-7. **How the work is done today.** Ask me for the real business documents: the SOP, the
+8. **How the work is done today.** Ask me for the real business documents: the SOP, the
 work instruction, the policy, the checklist someone keeps in a spreadsheet. These carry
 the rules and exceptions nobody thinks to mention in an interview, and they are usually
 the difference between an agent that demos and an agent that survives.
@@ -102,11 +127,11 @@ the difference between an agent that demos and an agent that survives.
    what it would change for the people doing the work, and let me decide. Be clear about
    which parts of your proposal are grounded in the documents and which are your opinion.
 
-8. **The blast radius.** What must never happen without me confirming first? Anything
+9. **The blast radius.** What must never happen without me confirming first? Anything
 that posts, books, sends, approves or deletes needs an explicit confirmation rule, and
 that rule belongs in the skill that does it.
 
-9. **Where each behavior belongs.** This is the part that decides whether the agent is
+10. **Where each behavior belongs.** This is the part that decides whether the agent is
 any good. For every behavior we have named, put it in exactly one place, and tell me
 which and why:
 
@@ -120,16 +145,16 @@ which and why:
 Push back on me if I try to put everything in instructions. That is the most common
 failure and it produces an agent nobody can debug.
 
-10. **Anything needing exact arithmetic or a real file.** Totals, reconciliations,
+11. **Anything needing exact arithmetic or a real file.** Totals, reconciliations,
 variances, a valid `.docx` or `.xlsx`. Models predict plausible numbers rather than
 computing correct ones, so these become a skill carrying a Python script that the
 sandbox runs. Ask me which of our behaviors are in this category.
 
-11. **What correct looks like.** Get three or four concrete examples out of me: an input,
+12. **What correct looks like.** Get three or four concrete examples out of me: an input,
 and the response I would accept. These become the test cases, and without them neither
 of us can tell whether the build worked.
 
-12. **Cost and permissions.** Tell me, do not ask: the GitHub Copilot harness bills in
+13. **Cost and permissions.** Tell me, do not ask: the GitHub Copilot harness bills in
 Copilot Credits and starts charging while we build, not at publish. Then ask whether I
 want to keep the scope tight for that reason.
 
